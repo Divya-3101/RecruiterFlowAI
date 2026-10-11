@@ -1,0 +1,516 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Applicant Details | RecruiterFlowAI
+{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+<div class="container applicant-detail-page">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <div class="applicant-detail-header">
+
+        <div class="candidate-header-info">
+
+            <div class="candidate-avatar">
+                {{ application.candidate.username|first|upper }}
+            </div>
+
+            <div class="candidate-header-text">
+
+                <h1>
+                    {{ application.candidate.username }}
+                </h1>
+
+                <p>
+                    <i class="bi bi-briefcase"></i>
+                    {{ application.job.title }}
+                </p>
+
+                <span>
+                    <i class="bi bi-building"></i>
+                    {{ application.job.company }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="candidate-header-actions">
+
+            <span class="status-badge badge-{{ application.status }}">
+                {{ application.get_status_display }}
+            </span>
+
+            <a
+                href="{% url 'recalculate_ai_match' application.id %}"
+                class="detail-action secondary"
+            >
+                <i class="bi bi-arrow-repeat"></i>
+                Recalculate AI
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         AI MATCH SUMMARY
+    ========================== -->
+
+    <div class="detail-section ai-analysis-section">
+
+        <div class="section-title-row">
+
+            <div>
+
+                <div class="section-icon">
+                    <i class="bi bi-stars"></i>
+                </div>
+
+                <div>
+                    <h2>AI Match Analysis</h2>
+
+                    <p>
+                        Candidate compatibility based on resume,
+                        skills and job requirements.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-score-grid">
+
+            <div class="ai-score-card">
+
+                <div class="score-card-header">
+
+                    <span>
+                        AI Semantic Match
+                    </span>
+
+                    <i class="bi bi-graph-up"></i>
+
+                </div>
+
+                <strong>
+                    {{ application.semantic_score }}%
+                </strong>
+
+                <small>
+                    Resume ↔ Job similarity
+                </small>
+
+            </div>
+
+
+            <div class="ai-score-card">
+
+                <div class="score-card-header">
+
+                    <span>
+                        Skill Match
+                    </span>
+
+                    <i class="bi bi-lightning"></i>
+
+                </div>
+
+                <strong>
+                    {{ application.skill_score }}%
+                </strong>
+
+                <small>
+                    Required skills matched
+                </small>
+
+            </div>
+
+
+            <div class="ai-score-card final-score-card">
+
+                <div class="score-card-header">
+
+                    <span>
+                        Final Match Score
+                    </span>
+
+                    <i class="bi bi-stars"></i>
+
+                </div>
+
+                <strong>
+                    {{ application.final_score }}%
+                </strong>
+
+                <small>
+                    AI weighted score
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SKILLS
+    ========================== -->
+
+    <div class="detail-grid">
+
+        <!-- Matched Skills -->
+
+        <div class="detail-section skill-section">
+
+            <div class="section-heading">
+
+                <div class="section-heading-icon matched-icon">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+
+                <div>
+
+                    <h2>Matched Skills</h2>
+
+                    <p>
+                        Skills found in the candidate profile.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if matched_skills %}
+
+                <div class="skill-list">
+
+                    {% for skill in matched_skills %}
+
+                        <span class="skill-badge matched">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            {{ skill }}
+
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-skill-state">
+                    <i class="bi bi-dash-circle"></i>
+                    <span>No matched skills found.</span>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Missing Skills -->
+
+        <div class="detail-section skill-section">
+
+            <div class="section-heading">
+
+                <div class="section-heading-icon missing-icon">
+                    <i class="bi bi-exclamation-circle"></i>
+                </div>
+
+                <div>
+
+                    <h2>Missing Skills</h2>
+
+                    <p>
+                        Required skills not found in the profile.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if missing_skills %}
+
+                <div class="skill-list">
+
+                    {% for skill in missing_skills %}
+
+                        <span class="skill-badge missing">
+
+                            <i class="bi bi-exclamation-circle-fill"></i>
+
+                            {{ skill }}
+
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="success-message">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    <div>
+
+                        <strong>Excellent match</strong>
+
+                        <span>
+                            Candidate matches all required skills.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         APPLICATION + RESUME
+    ========================== -->
+
+    <div class="detail-grid">
+
+        <!-- Application Information -->
+
+        <div class="detail-section">
+
+            <div class="section-heading">
+
+                <div class="section-heading-icon">
+                    <i class="bi bi-file-earmark-text"></i>
+                </div>
+
+                <div>
+
+                    <h2>Application Information</h2>
+
+                    <p>
+                        Basic information about this application.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-list">
+
+                <div class="info-row">
+
+                    <span>Status</span>
+
+                    <strong>
+                        {{ application.get_status_display }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Job</span>
+
+                    <strong>
+                        {{ application.job.title }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Company</span>
+
+                    <strong>
+                        {{ application.job.company }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>Applied On</span>
+
+                    <strong>
+                        {{ application.applied_at|date:"d M Y, h:i A" }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Resume -->
+
+        <div class="detail-section">
+
+            <div class="section-heading">
+
+                <div class="section-heading-icon">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                </div>
+
+                <div>
+
+                    <h2>Resume</h2>
+
+                    <p>
+                        Candidate's uploaded resume.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="resume-card">
+
+                <div class="resume-file-icon">
+
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+
+                </div>
+
+                <div class="resume-file-info">
+
+                    <strong>Candidate Resume</strong>
+
+                    <span>
+                        PDF document
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            {% if application.resume %}
+
+                <a
+                    href="{{ application.resume.url }}"
+                    target="_blank"
+                    class="view-resume-button"
+                >
+
+                    <i class="bi bi-eye"></i>
+
+                    View Resume
+
+                </a>
+
+            {% else %}
+
+                <div class="no-resume-message">
+                    No resume uploaded.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         COVER LETTER
+    ========================== -->
+
+    <div class="detail-section cover-letter-section">
+
+        <div class="section-heading">
+
+            <div class="section-heading-icon">
+                <i class="bi bi-chat-left-text"></i>
+            </div>
+
+            <div>
+
+                <h2>Cover Letter</h2>
+
+                <p>
+                    Candidate's message submitted with the application.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="cover-letter-content">
+
+            {% if application.cover_letter %}
+
+                {{ application.cover_letter|linebreaks }}
+
+            {% else %}
+
+                <span class="no-cover-letter">
+                    No cover letter provided.
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER ACTIONS
+    ========================== -->
+
+    <div class="detail-footer">
+
+        <a
+            href="{% url 'recruiter_applications' %}"
+            class="footer-back-button"
+        >
+            <i class="bi bi-arrow-left"></i>
+            Back to Applicants
+        </a>
+
+
+        <a
+            href="{% url 'update_application_status' application.id %}"
+            class="footer-update-button"
+        >
+            <i class="bi bi-pencil-square"></i>
+            Update Status
+        </a>
+
+    </div>
+
+</div>
+
+</section>
+
+{% endblock %}

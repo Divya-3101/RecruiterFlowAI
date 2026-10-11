@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %}Recruiter Dashboard | RecruiterFlowAI{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <h1 class="page-title">
+                Recruiter Dashboard
+            </h1>
+
+            <p class="page-subtitle">
+                Monitor hiring activity and manage your candidates.
+            </p>
+
+        </div>
+
+
+        <div class="card-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Total Jobs
+                </div>
+
+                <div class="stat-value">
+                    {{ total_jobs }}
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Applications
+                </div>
+
+                <div class="stat-value">
+                    {{ total_applications }}
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Unique Candidates
+                </div>
+
+                <div class="stat-value">
+                    {{ unique_candidates }}
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Recent
+                </div>
+
+                <div class="stat-value">
+                    {{ recent_applications|length }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-card"
+             style="margin-top:20px;">
+
+            <div class="table-card-header">
+                Recent Applications
+            </div>
+
+            <div style="overflow-x:auto;">
+
+                <table class="data-table">
+
+                    <thead>
+
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Position</th>
+                        <th>Status</th>
+                        <th>Applied</th>
+                        <th style="text-align:right;">Action</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for app in recent_applications %}
+
+                    <tr>
+
+                        <td>
+                            <a href="{% url 'application_detail' app.id %}" style="text-decoration:none; color:inherit; font-weight:600;">
+                                {{ app.candidate.username }}
+                            </a>
+                        </td>
+
+                        <td>
+                            {{ app.job.title }}
+                        </td>
+
+                        <td>
+                            <span class="badge badge-{{ app.status }}">
+                                {{ app.get_status_display }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ app.applied_at|date:"d M Y" }}
+                        </td>
+
+                        <td style="text-align:right;">
+                            <a href="{% url 'application_detail' app.id %}" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="5">
+                            No applications yet.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

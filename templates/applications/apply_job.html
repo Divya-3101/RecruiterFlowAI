@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Apply | RecruiterFlowAI{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+<div class="container">
+
+<div class="form-card">
+
+<div class="page-header">
+
+<h1>
+Apply for {{ job.title }}
+</h1>
+
+<p class="page-subtitle">
+{{ job.company }} · {{ job.location }}
+</p>
+
+</div>
+
+
+<div class="job-meta">
+
+<span class="meta-item">
+₹{{ job.salary }}
+</span>
+
+<span class="meta-item">
+{{ job.company }}
+</span>
+
+<span class="meta-item">
+{{ job.location }}
+</span>
+
+</div>
+
+
+<form method="POST"
+      enctype="multipart/form-data">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<div class="form-actions">
+
+<button
+    type="submit"
+    class="btn btn-primary">
+
+    Submit Application
+
+</button>
+
+<a
+    href="{% url 'job_list' %}"
+    class="btn btn-secondary">
+
+    Cancel
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}

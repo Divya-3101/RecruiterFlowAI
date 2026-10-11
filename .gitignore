@@ -1,0 +1,43 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Secrets & Environment variables
+.env
+.env.local
+*.env
+
+# SQLite & Database
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+
+# Uploaded Media files (do not commit candidate resumes/photos)
+media/*
+!media/.gitkeep
+
+# Static collected files
+staticfiles/
+
+# Logs
+*.log
+logs/
+
+# IDE & Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+Desktop.ini

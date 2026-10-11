@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Saved Jobs | RecruiterFlowAI{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+<div class="container">
+
+<div class="page-header">
+
+<h1 class="page-title">
+Saved Jobs
+</h1>
+
+<p class="page-subtitle">
+Jobs you want to come back to later.
+</p>
+
+</div>
+
+
+<div class="job-grid">
+
+{% for saved in saved_jobs %}
+
+<article class="job-card">
+
+<div class="job-title">
+{{ saved.job.title }}
+</div>
+
+<div class="job-company">
+{{ saved.job.company }}
+</div>
+
+
+<div class="job-meta">
+
+<span class="meta-item">
+<i class="bi bi-geo-alt"></i>
+{{ saved.job.location }}
+</span>
+
+<span class="meta-item">
+₹{{ saved.job.salary }}
+</span>
+
+</div>
+
+
+<p class="job-description">
+{{ saved.job.description|truncatewords:25 }}
+</p>
+
+
+<div class="job-actions">
+
+<a
+    href="{% url 'apply_job' saved.job.id %}"
+    class="btn btn-primary">
+
+    Apply
+
+</a>
+
+<a
+    href="{% url 'save_job' saved.job.id %}"
+    class="btn btn-danger">
+
+    <i class="bi bi-bookmark-x"></i>
+    Remove
+
+</a>
+
+</div>
+
+</article>
+
+{% empty %}
+
+<div class="empty-state">
+
+<i class="bi bi-bookmark"></i>
+
+<h3>No saved jobs</h3>
+
+<p>
+Save interesting jobs and find them here later.
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}

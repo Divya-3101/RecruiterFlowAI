@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Applicants | RecruiterFlowAI
+{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <h1 class="page-title">
+                Applicants
+            </h1>
+
+            <p class="page-subtitle">
+                Review candidates using AI-assisted resume matching.
+            </p>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <div style="overflow-x:auto;">
+
+                <table class="data-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Candidate</th>
+
+                            <th>Job</th>
+
+                            <th>AI Match</th>
+
+                            <th>Skill Match</th>
+
+                            <th>Final Score</th>
+
+                            <th>Status</th>
+
+                            <th>Resume</th>
+
+                            <th style="text-align:center;">Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for app in applications %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{ app.candidate.username }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                {{ app.job.title }}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ app.semantic_score }}%
+
+                            </td>
+
+
+                            <td>
+
+                                {{ app.skill_score }}%
+
+                            </td>
+
+
+                            <td>
+
+                                <strong style="color:#15803d; font-size:16px;">
+
+                                    {{ app.final_score }}%
+
+                                </strong>
+
+                            </td>
+                            {% comment %} <td>
+
+                            <strong style="font-size:16px;">
+                                {{ app.final_score }}%
+                            </strong>
+
+                            <div style="margin-top:5px;">
+
+                                <span class="badge badge-match">
+                                    {{ app.match_category }}
+                                </span>
+
+                            </div>
+
+                        </td> {% endcomment %}
+
+
+                            <td>
+
+                                <span class="badge badge-{{ app.status }}">
+
+                                    {{ app.get_status_display }}
+
+                                </span>
+
+                            </td>
+
+                            
+                            <td>
+
+                                {% if app.resume %}
+
+                                    <a
+                                        href="{{ app.resume.url }}"
+                                        target="_blank"
+                                        class="btn btn-secondary"
+                                    >
+
+                                        <i class="bi bi-file-earmark-text"></i>
+                                        Resume
+
+                                    </a>
+
+                                {% else %}
+
+                                    <span>
+                                        No Resume
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <div style="display:flex; gap:8px; flex-wrap:nowrap; ">
+
+                                    <a
+                                        href="{% url 'application_detail' app.id %}"
+                                        class="btn btn-primary">
+                                        <i class="bi bi-eye"></i>
+                                        View
+                                    </a>
+
+                                    <a
+                                        href="{% url 'update_application_status' app.id %}"
+                                        class="btn btn-secondary"
+                                    >
+                                        <i class="bi bi-pencil"></i>
+                                        Update
+                                    </a>
+
+                                    <a
+                                        href="{% url 'recalculate_ai_match' app.id %}"
+                                        class="btn btn-secondary"
+                                    >
+                                        <i class="bi bi-arrow-repeat"></i>
+                                        Recalculate
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="8">
+
+                                No applications yet.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

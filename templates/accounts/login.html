@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | RecruiterFlowAI{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-header">
+
+            <div class="brand"
+                 style="justify-content:center; margin-bottom:18px;">
+
+                <span class="brand-mark">
+                    RF
+                </span>
+
+                <span>
+                    Recruiter<span class="brand-accent">Flow</span>AI
+                </span>
+
+            </div>
+
+            <h1>Welcome back</h1>
+
+            <p>
+                Sign in to continue to your account.
+            </p>
+
+        </div>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label>Username</label>
+
+                <input
+                    class="form-control"
+                    type="text"
+                    name="username"
+                    required
+                    placeholder="Enter username"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Password</label>
+
+                <input
+                    class="form-control"
+                    type="password"
+                    name="password"
+                    required
+                    placeholder="Enter password"
+                >
+
+            </div>
+
+
+            <button class="btn btn-primary"
+                    type="submit"
+                    style="width:100%;">
+
+                Sign In
+
+            </button>
+
+        </form>
+
+
+        <p style="text-align:center; margin-top:18px; color:#667085; font-size:13px;">
+
+            Don't have an account?
+
+            <a href="{% url 'register' %}"
+               style="color:#4f46e5; font-weight:700;">
+
+                Create account
+
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

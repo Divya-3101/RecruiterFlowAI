@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}My Applications | RecruiterFlowAI{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+<div class="container">
+
+<div class="page-header">
+
+<h1 class="page-title">
+My Applications
+</h1>
+
+<p class="page-subtitle">
+Track every application from one place.
+</p>
+
+</div>
+
+
+<div class="table-card">
+
+<div style="overflow-x:auto;">
+
+<table class="data-table">
+
+<thead>
+
+<tr>
+<th>Job</th>
+<th>Company</th>
+<th>Status</th>
+<th>Applied</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for app in applications %}
+
+<tr>
+
+<td>
+<strong>{{ app.job.title }}</strong>
+</td>
+
+<td>
+{{ app.job.company }}
+</td>
+
+<td>
+
+<span class="badge badge-{{ app.status }}">
+{{ app.get_status_display }}
+</span>
+
+</td>
+
+<td>
+{{ app.applied_at|date:"d M Y" }}
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="4">
+No applications yet.
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}

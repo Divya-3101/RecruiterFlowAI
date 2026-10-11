@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Candidate Dashboard | RecruiterFlowAI{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <h1 class="page-title">
+                Welcome back, {{ user.username }}
+            </h1>
+
+            <p class="page-subtitle">
+                Track your applications and discover new opportunities.
+            </p>
+
+        </div>
+
+
+        <div class="card-grid">
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Applications
+                </div>
+
+                <div class="stat-value">
+                    {{ total_applications }}
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Shortlisted
+                </div>
+
+                <div class="stat-value">
+                    {{ shortlisted }}
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Interviews
+                </div>
+
+                <div class="stat-value">
+                    {{ interviews }}
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Saved Jobs
+                </div>
+
+                <div class="stat-value">
+                    {{ saved_jobs }}
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="table-card"
+             style="margin-top:20px;">
+
+            <div class="table-card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Recent Applications</span>
+                <a href="{% url 'my_applications' %}" class="btn btn-secondary" style="font-size:12px; padding:4px 10px;">
+                    View All
+                </a>
+            </div>
+
+            <div style="overflow-x:auto;">
+
+                <table class="data-table">
+
+                    <thead>
+
+                    <tr>
+                        <th>Job</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                        <th>Applied</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for app in recent_applications %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ app.job.title }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ app.job.company }}
+                        </td>
+
+                        <td>
+                            <span class="badge badge-{{ app.status }}">
+                                {{ app.get_status_display }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ app.applied_at|date:"d M Y" }}
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="4">
+                            No applications yet.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

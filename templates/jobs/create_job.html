@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Post a Job | RecruiterFlowAI{% endblock %}
+
+{% block content %}
+
+<section class="page">
+
+    <div class="container">
+
+        <div class="form-card">
+
+            <h1>Post a new job</h1>
+
+            <p class="form-description">
+                Add the role details and required skills for candidates.
+            </p>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <div class="form-actions">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-plus-circle"></i>
+                        Publish Job
+
+                    </button>
+
+                    <a href="{% url 'job_list' %}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

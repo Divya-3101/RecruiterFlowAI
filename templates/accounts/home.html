@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+
+{% block title %}RecruiterFlowAI | Smart Recruitment{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="container hero-grid">
+
+        <div>
+
+            <div class="hero-badge">
+                <i class="bi bi-stars"></i>
+                AI-assisted recruitment platform
+            </div>
+
+            <h1>
+                Find the right people.
+                <span>Faster.</span>
+            </h1>
+
+            <p>
+                RecruiterFlowAI helps candidates discover opportunities
+                and helps recruiters identify relevant talent using
+                intelligent resume matching.
+            </p>
+
+            <div class="hero-actions">
+
+                {% if user.is_authenticated %}
+
+                    {% if user.role == 'candidate' %}
+
+                        <a href="{% url 'job_list' %}"
+                           class="btn btn-primary">
+                            <i class="bi bi-search"></i>
+                            Explore Jobs
+                        </a>
+
+                        <a href="{% url 'candidate_dashboard' %}"
+                           class="btn btn-secondary">
+                            Dashboard
+                        </a>
+
+                    {% else %}
+
+                        <a href="{% url 'create_job' %}"
+                           class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i>
+                            Post a Job
+                        </a>
+
+                        <a href="{% url 'dashboard' %}"
+                           class="btn btn-secondary">
+                            Dashboard
+                        </a>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <a href="{% url 'register' %}"
+                       class="btn btn-primary">
+                        Get Started
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                    <a href="{% url 'job_list' %}"
+                       class="btn btn-secondary">
+                        Browse Jobs
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-panel">
+
+            <div class="hero-panel-top">
+                <div class="panel-title">
+                    Candidate Matching
+                </div>
+
+                <div class="panel-live">
+                    ● LIVE
+                </div>
+            </div>
+
+            <div class="panel-row">
+
+                <div class="panel-avatar">
+                    <div class="avatar">D</div>
+
+                    <div>
+                        <strong>Candidate A</strong>
+                        <small>Python Developer</small>
+                    </div>
+                </div>
+
+                <span class="badge badge-shortlisted">
+                    Shortlisted
+                </span>
+
+                <span class="score">
+                    92%
+                </span>
+
+            </div>
+
+            <div class="panel-row">
+
+                <div class="panel-avatar">
+                    <div class="avatar">R</div>
+
+                    <div>
+                        <strong>Candidate B</strong>
+                        <small>Django Developer</small>
+                    </div>
+                </div>
+
+                <span class="badge badge-reviewing">
+                    Review
+                </span>
+
+                <span class="score">
+                    84%
+                </span>
+
+            </div>
+
+            <div class="panel-row">
+
+                <div class="panel-avatar">
+                    <div class="avatar">A</div>
+
+                    <div>
+                        <strong>Candidate C</strong>
+                        <small>Backend Developer</small>
+                    </div>
+                </div>
+
+                <span class="badge badge-applied">
+                    Applied
+                </span>
+
+                <span class="score">
+                    71%
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-header">
+            <h2 class="section-title">
+                Built for both sides of hiring
+            </h2>
+
+            <p class="section-subtitle">
+                A complete workflow for candidates and recruiters.
+            </p>
+        </div>
+
+        <div class="card-grid">
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Smart Matching
+                </div>
+
+                <div class="stat-value">
+                    AI
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Job Discovery
+                </div>
+
+                <div class="stat-value">
+                    Fast
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Application Tracking
+                </div>
+
+                <div class="stat-value">
+                    Live
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    Role Security
+                </div>
+
+                <div class="stat-value">
+                    Secure
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
